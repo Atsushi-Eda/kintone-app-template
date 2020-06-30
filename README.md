@@ -73,3 +73,9 @@ Basic authentication password:
 |-s, --spaceId|Space id|i|
 |-f, --fileName|Export file name|e|
 |-h, --help|display help for command|-, e, i, c|
+
+## Notes
+- Works only with Node.js version 12 and above.
+- When exporting, apps referenced in lookup fields or reference tables are automatically added to template.
+- Fields referenced in lookup fields must be unique.
+- An error may occur if you are looking up lookup fields in lookup fields or an automatic calculation.
