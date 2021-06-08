@@ -1,12 +1,12 @@
+const Utils = require('../common/Utils');
+
 module.exports = class FileDownloader {
   constructor(client, files) {
     this.client = client;
     this.files = files;
   }
   static downloads(client, files) {
-    return Promise.all(
-      files.map((file) => FileDownloader.download(client, file))
-    );
+    return Utils.executeByChunk(files, 100, (file) => FileDownloader.download(client, file));
   }
   static async download(client, file) {
     return {

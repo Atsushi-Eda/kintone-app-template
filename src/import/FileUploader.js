@@ -1,7 +1,9 @@
+const Utils = require('../common/Utils');
+
 module.exports = class FileUploader {
   static async uploads(client, files) {
-    return Promise.all(
-      files.map((file) => FileUploader.upload(client, file))
+    return Utils.executeByChunk(
+      files, 100, (file) => FileUploader.upload(client, file)
     ).then((fileKeys) => {
       const fileKeyMapper = new Map();
       fileKeys.forEach(({ origin, copy }) => {

@@ -17,4 +17,14 @@ module.exports = class Utils {
   static objectValueFilter(obj, fun) {
     return Utils.objectFilter(obj, ([key, value]) => fun(value));
   }
+  static toChunks(arr, size) {
+    return arr.reduce((chunks, _, index) => (index % size ? chunks : [...chunks, arr.slice(index, index + size)]), []);
+  }
+  static async executeByChunk(arr, size, fun) {
+    const resultChunks = [];
+    for (const chunk of Utils.toChunks(arr, size)) {
+      resultChunks.push(await Promise.all(chunk.map((element) => fun(element))));
+    }
+    return resultChunks.flat();
+  }
 };
