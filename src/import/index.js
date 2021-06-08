@@ -1,5 +1,6 @@
 const fs = require('fs');
 const rp = require('request-promise');
+const Utils = require('../common/Utils');
 const commander = require('./commander');
 const Progress = require('../common/Progress');
 const Client = require('../common/Client');
@@ -10,9 +11,10 @@ const FileFormatter = require('./FileFormatter');
 
 (async () => {
   commander.parse(process.argv);
-  const client = new Client().setCommander(commander).getClient();
+  const options = Utils.objectValueMap(commander.opts(), (option) => option.replace(' ', ''));
+  const client = new Client().setOptions(options).getClient();
   const filePath = commander.args[0];
-  const spaceId = commander.spaceId || commander.guestSpaceId;
+  const spaceId = options.spaceId || options.guestSpaceId;
   const progress = new Progress([
     'Get template.',
     'Add files.',

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Utils = require('../common/Utils');
 const commander = require('./commander');
 const Progress = require('../common/Progress');
 const Client = require('../common/Client');
@@ -10,9 +11,10 @@ const FileDownloader = require('./FileDownloader');
 
 (async () => {
   commander.parse(process.argv);
-  const client = new Client().setCommander(commander).getClient();
+  const options = Utils.objectValueMap(commander.opts(), (option) => option.replace(' ', ''));
+  const client = new Client().setOptions(options).getClient();
   const appIds = commander.args[0].split(',');
-  const fileName = commander.fileName || 'template.json';
+  const fileName = options.fileName || 'template.json';
   const progress = new Progress([
     'Get related apps.',
     'Get app settings & records.',

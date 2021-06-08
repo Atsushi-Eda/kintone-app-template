@@ -11,25 +11,25 @@ module.exports = class Client {
       this.defaultConfig = {};
     }
   }
-  setCommander(commander) {
-    this.commander = commander;
+  setOptions(options) {
+    this.options = options;
     return this;
   }
   getClient() {
-    const options = {
+    const clientSettings = {
       baseUrl:
-        'https://' + (this.commander.domain || this.defaultConfig.domain),
+        'https://' + (this.options.domain || this.defaultConfig.domain),
       auth: {
-        username: this.commander.user || this.defaultConfig.user,
-        password: this.commander.pass || this.defaultConfig.pass,
+        username: this.options.user || this.defaultConfig.user,
+        password: this.options.pass || this.defaultConfig.pass,
       },
       basicAuth: {
-        username: this.commander.userBasic || this.defaultConfig.userBasic,
-        password: this.commander.passBasic || this.defaultConfig.passBasic,
+        username: this.options.userBasic || this.defaultConfig.userBasic,
+        password: this.options.passBasic || this.defaultConfig.passBasic,
       },
     };
-    if (this.commander.guestSpaceId)
-      options.guestSpaceId = this.commander.guestSpaceId;
-    return new KintoneRestAPIClient(options);
+    if (this.options.guestSpaceId)
+      clientSettings.guestSpaceId = this.options.guestSpaceId;
+    return new KintoneRestAPIClient(clientSettings);
   }
 };
