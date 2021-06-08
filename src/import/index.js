@@ -143,11 +143,11 @@ const FileFormatter = require('./FileFormatter');
     await client.record.addAllRecords({
       app: appId,
       records: fileFormatter.formatRecordsPosts(app.records.posts),
-    });
+    }).catch(({errorIndex, error}) => console.log(`index: ${errorIndex}, message: ${error.message}`));
     await client.record.deleteAllRecords({
       app: appId,
       records: app.records.deletes,
-    });
+    }).catch(({errorIndex, error}) => console.log(`index: ${errorIndex}, message: ${error.message}`));
   }
   for (const appIndex in template.apps) {
     const app = template.apps[appIndex];
@@ -155,7 +155,7 @@ const FileFormatter = require('./FileFormatter');
     await client.record.updateAllRecords({
       app: appId,
       records: fileFormatter.formatRecordsPuts(app.records.puts),
-    });
+    }).catch(({errorIndex, error}) => console.log(`index: ${errorIndex}, message: ${error.message}`));
   }
   progress.proceed();
   console.log(`Added ${template.apps.length} apps.`);
